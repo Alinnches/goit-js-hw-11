@@ -3,19 +3,21 @@ import { hideLoader, renderImages, showLoader, showMessage } from './js/render-f
 
 const form = document.querySelector('form');
 const input = document.querySelector('#search-text');
+const gallery = document.querySelector('.gallery');
 
 form.addEventListener('submit', handleSubmit);
 
 function handleSubmit(e) {
   e.preventDefault();
 
-  const searchText = input.value;
+  const searchText = input.value.trim();
 
   if (!searchText) return;
 
   input.value = '';
 
-  showLoader()
+  clearGallery();
+  showLoader();
 
   fetchImages(searchText)
     .then(data => handleSearchResults(data.data.hits))
@@ -30,4 +32,8 @@ function handleSearchResults(images) {
   }
 
   renderImages(images);
+}
+
+function clearGallery() {
+  gallery.innerHTML = '';
 }
